@@ -10,6 +10,7 @@ const {
 } = require("../controllers/userController");
 
 const { reqAppointment } = require("../controllers/appointmentController");
+const { searchedHospital } = require("../controllers/hospitalController");
 
 const router = express.Router()
 
@@ -23,6 +24,9 @@ router.route("/details/:u_id").get(getUserDetail).put(updateUserDetail)
 
 //appointment controller
 router.route("/reqApt").post(reqAppointment);
+
+//from hospital controller
+router.route("/searchHospital").get(searchedHospital);
 
 //postman route only for testing
 router.route("/postman/:u_id").get(getUserDetailsPostman)

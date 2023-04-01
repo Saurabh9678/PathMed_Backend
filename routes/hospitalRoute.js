@@ -7,6 +7,7 @@ const {
   getHospitalDetailPostman,
   getHospitalDetail,
   getAllNewAppointments,
+  updateHostpitalDetail,
 } = require("../controllers/hospitalController");
 
 
@@ -23,7 +24,7 @@ router.route("/login").post(loginHospital);
 
 router.route("/logout").get(logoutHospital);
 
-router.route("/detail/:h_id").get(getHospitalDetail);
+router.route("/detail/:h_id").get(getHospitalDetail).put(updateHostpitalDetail);
 
 router.route("/all-appointment/:h_id").get(getAllNewAppointments)
 

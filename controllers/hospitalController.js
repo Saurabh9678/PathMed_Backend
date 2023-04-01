@@ -89,6 +89,24 @@ exports.getHospitalDetail = catchAsyncError(async (req, res, next) => {
   });
 });
 
+// Update Hospital Profile
+
+exports.updateHostpitalDetail = catchAsyncError(async (req, res, next) => {
+    const hospital = await Hospital.findByIdAndUpdate(req.params.h_id, req.body, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+  
+    res.status(200).json({
+      success: true,
+      hospital,
+      message:"Success",
+      error: ""
+    });
+  });
+
+
 // Get new appointments
 exports.getAllNewAppointments = catchAsyncError(async (req, res, next) => {
     const hospital = await Hospital.findById(req.params.h_id).populate("new_appoinments.apt_id", "_id user_id appointment_date");
@@ -121,4 +139,32 @@ exports.getAllNewAppointments = catchAsyncError(async (req, res, next) => {
   
 
 
-
+// Search for Hospital Details
+exports.searchedHospital = catchAsyncError(async (req, res, next) => {
+    // Get the city from the front-end
+    const city = req.query.city;
+    const hpt = req.query.hospital;
+    let hospital;
+    if (city) {
+      hospital = await Hospital.find({ "address.city": city });
+    } else if (hpt) {
+      hospital = await Hospital.find({ name: hpt });
+    }
+  
+    if (hospital.length===0) {
+      return next(new ErrorHandler("No hospitals found", 400));
+    }
+  
+    const resHospital = hospital.map(({ _id, name, address }) => ({
+      _id,
+      name,
+      address,
+    }));
+  
+    res.status(200).json({
+      success: true,
+      resHospital,
+      message: "Success",
+      error: ""
+    });
+  });
