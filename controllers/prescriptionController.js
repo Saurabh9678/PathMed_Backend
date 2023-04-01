@@ -56,6 +56,35 @@ exports.getPrescription = catchAsyncError(async (req, res, next) => {
   });
 });
 
+// Get Medications --> User
+exports.getMedications = catchAsyncError(async (req, res, next) => {
+
+  const user = await User.findById(req.params.u_id).populate({
+    path: "prescriptions",
+    populate: {
+      path: "prescription",
+      select: "medicines",
+    },
+  });
+
+  const user_medication = user.prescriptions.reduce((acc, prescription) => {
+    return acc.concat(prescription.prescription.medicines);
+  }, []);
+
+  console.log(user_medication);
+
+  if (!user_medication) {
+    return next(new ErrorHandler("No prescription found", 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    madications: user_medication,
+    message: "Success",
+    error: "",
+  });
+});
+
 // Update Prescription --> Doctor(PUT)
 // Not added the router in doctorRouter.js
 exports.updatePrescription = catchAsyncError(async (req, res, next) => {

@@ -6,21 +6,23 @@ const {
   logoutUser,
   getUserDetail,
   getUserDetailsPostman,
-  updateUserDetail
+  updateUserDetail,
 } = require("../controllers/userController");
 
 const { reqAppointment } = require("../controllers/appointmentController");
 const { searchedHospital } = require("../controllers/hospitalController");
+const { getMedications } = require("../controllers/prescriptionController");
 
-const router = express.Router()
 
-router.route("/register").post(registerUser)
+const router = express.Router();
 
-router.route("/login").post(loginUser)
+router.route("/register").post(registerUser);
 
-router.route("/logout").get(logoutUser)
+router.route("/login").post(loginUser);
 
-router.route("/details/:u_id").get(getUserDetail).put(updateUserDetail)
+router.route("/logout").get(logoutUser);
+
+router.route("/details/:u_id").get(getUserDetail).put(updateUserDetail);
 
 //appointment controller
 router.route("/reqApt").post(reqAppointment);
@@ -29,6 +31,8 @@ router.route("/reqApt").post(reqAppointment);
 router.route("/searchHospital").get(searchedHospital);
 
 //postman route only for testing
-router.route("/postman/:u_id").get(getUserDetailsPostman)
+router.route("/postman/:u_id").get(getUserDetailsPostman);
 
-module.exports = router
+router.route("/medications/:u_id").get(getMedications);
+
+module.exports = router;
