@@ -6,9 +6,12 @@ const {
   logoutHospital,
   getHospitalDetailPostman,
   getHospitalDetail,
+  getAllNewAppointments,
 } = require("../controllers/hospitalController");
 
-const { getNewAppointment } = require("../controllers/appointmentController");
+
+const { resToAppointment } = require("../controllers/appointmentController");
+
 
 
 
@@ -22,9 +25,16 @@ router.route("/logout").get(logoutHospital);
 
 router.route("/detail/:h_id").get(getHospitalDetail);
 
+router.route("/all-appointment/:h_id").get(getAllNewAppointments)
+
+
+//Appointment controller
+router.route("/resApt/:apt_id").post(resToAppointment);
+
+
 // For Postman --> All Details
 router.route("/all-detail/:h_id").get(getHospitalDetailPostman);
 
-router.route("/apts/:h_id").get(getNewAppointment);
+
 
 module.exports = router;

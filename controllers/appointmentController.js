@@ -32,6 +32,7 @@ exports.reqAppointment = catchAsyncError(async (req, res, next) => {
     success: true,
     appointment,
     message: "Appointment request success",
+    error: ""
   });
 });
 
@@ -69,20 +70,19 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
     hospital.new_appoinments = new_appoinments;
 
     // Add the accepted appointment's id to the doctor's model
-    const acptdApt = await Appointment.findById(appointment._id);
-
-    const assignedDoctor = await Doctor.findById(acptdApt.doctor_id);
-
-    assignedDoctor.allAppointments.push({ appointment: appointment._id });
+    // const acptdApt = await Appointment.findById(appointment._id);
+    // const assignedDoctor = await Doctor.findById(acptdApt.doctor_id);
+    // assignedDoctor.allAppointments.push({ appointment: appointment._id });
 
     await user.save({ validateBeforeSave: false });
     await hospital.save({ validateBeforeSave: false });
-    await assignedDoctor.save({ validateBeforeSave: false });
+    //await assignedDoctor.save({ validateBeforeSave: false });
 
     res.status(200).json({
       success: true,
       appointment,
       message: "Appointment Accepted",
+      error:""
     });
   } else if (status === "R") {
     const user = await User.findById(appointment.user_id);
@@ -105,6 +105,7 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Appointment Rejected",
+      error: ""
     });
   }
 });
@@ -132,24 +133,8 @@ exports.getAppointment = catchAsyncError(async (req, res, next) => {
       urgency: appointment.urgency,
       status: appointment.status,
     },
+    message:"",
+
   });
 });
 
-// Get New Appointments by Hospital id
-exports.getNewAppointment = catchAsyncError(async (req, res, next) => {
-  const hospital = await Hospital.findById(req.params.h_id);
-
-  const newAppointmentsId = hospital.new_appoinments.map((apt) => apt.apt_id);
-
-  const newApt = await Appointment.find({ _id: newAppointmentsId });
-
-  if (!newApt) {
-    console.log("Error");
-    return next(new ErrorHandler("No new appointments found", 400));
-  }
-
-  res.status(200).json({
-    success: true,
-    newApt,
-  });
-});

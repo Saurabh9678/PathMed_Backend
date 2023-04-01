@@ -5,9 +5,11 @@ const {
   registerUser,
   logoutUser,
   getUserDetail,
-  getUserDetailsPostman
+  getUserDetailsPostman,
+  updateUserDetail
 } = require("../controllers/userController");
 
+const { reqAppointment } = require("../controllers/appointmentController");
 
 const router = express.Router()
 
@@ -17,8 +19,10 @@ router.route("/login").post(loginUser)
 
 router.route("/logout").get(logoutUser)
 
-router.route("/detail/:u_id").get(getUserDetail)
+router.route("/details/:u_id").get(getUserDetail).put(updateUserDetail)
 
+//appointment controller
+router.route("/reqApt").post(reqAppointment);
 
 //postman route only for testing
 router.route("/postman/:u_id").get(getUserDetailsPostman)

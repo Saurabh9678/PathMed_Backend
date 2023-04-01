@@ -87,3 +87,16 @@ exports.getHospitalDetail = catchAsyncError(async (req, res, next) => {
     }
   });
 });
+
+// Get new appointments
+exports.getAllNewAppointments = catchAsyncError(async (req, res, next) => {
+  const hospital =await Hospital.findById(req.params.h_id).populate("new_appoinments.apt_id", "_id user_id appointment_date");
+
+  res.status(200).json({
+    success:true,
+    appointments: hospital.new_appoinments
+  })
+})
+
+
+
