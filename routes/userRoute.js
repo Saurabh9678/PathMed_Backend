@@ -11,7 +11,7 @@ const {
 
 const { reqAppointment } = require("../controllers/appointmentController");
 const { searchedHospital } = require("../controllers/hospitalController");
-const { getMedications } = require("../controllers/prescriptionController");
+const { getPrescription } = require("../controllers/prescriptionController");
 
 
 const router = express.Router();
@@ -33,6 +33,6 @@ router.route("/searchHospital").get(searchedHospital);
 //postman route only for testing
 router.route("/postman/:u_id").get(getUserDetailsPostman);
 
-router.route("/medications/:u_id").get(getMedications);
+router.route("/prescription/:u_id").get(getPrescription);
 
 module.exports = router;

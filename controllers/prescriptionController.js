@@ -5,6 +5,10 @@ const Prescription = require("../models/prescriptionModel");
 
 const User = require("../models/userModel");
 
+const Doctor = require("../models/doctorModel");
+
+const Hospital = require("../models/hospitalModel");
+
 // Add Prescription --> Doctor(POST)
 exports.addPrescription = catchAsyncError(async (req, res, next) => {
   const {
@@ -43,43 +47,23 @@ exports.addPrescription = catchAsyncError(async (req, res, next) => {
 
 // Get Prescription --> User(GET)
 exports.getPrescription = catchAsyncError(async (req, res, next) => {
-  const prescription = await Prescription.findById(req.params.id);
-  if (!prescription) {
-    return next(new ErrorHandler("No prescription found", 400));
-  }
+  const user = await User.findById(req.params.u_id);
 
-  res.status(200).json({
-    success: true,
-    prescription: prescription,
-    message: "Success",
-    error: "",
-  });
-});
+  const prescriptionIDs = user.prescriptions.map((pres) => pres.prescription);
 
-// Get Medications --> User
-exports.getMedications = catchAsyncError(async (req, res, next) => {
-
-  const user = await User.findById(req.params.u_id).populate({
-    path: "prescriptions",
-    populate: {
-      path: "prescription",
-      select: "medicines",
+  const prescriptions = await Prescription.find({
+    _id: {
+      $in: prescriptionIDs,
     },
-  }); 
+  });
 
-  const user_medication = user.prescriptions.reduce((acc, prescription) => {
-    return acc.concat(prescription.prescription.medicines);
-  }, []);
-
-  console.log(user_medication);
-
-  if (!user_medication) {
+  if (!prescriptions) {
     return next(new ErrorHandler("No prescription found", 400));
   }
 
   res.status(200).json({
     success: true,
-    madications: user_medication,
+    name: prescriptions,
     message: "Success",
     error: "",
   });
