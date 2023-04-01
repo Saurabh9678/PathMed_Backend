@@ -51,5 +51,6 @@ exports.logoutDoctor = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Logged Out",
+    error: "",
   });
 });
