@@ -65,7 +65,9 @@ exports.getHospitalDetailPostman = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    hospital,
+    hospital: hospital,
+    message: "Success",
+    error: ""
   });
 });
 
@@ -85,7 +87,9 @@ exports.getHospitalDetail = catchAsyncError(async (req, res, next) => {
       contact_number: hospital.contact_number,
       address: hospital.address,
       departments: hospital.departments
-    }
+    },
+    message: "Success",
+    eroor: ""
   });
 });
 
