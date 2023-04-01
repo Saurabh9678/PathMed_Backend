@@ -7,10 +7,12 @@ app.use(express.json());
 
 //Route Imports
   const userRoutes = require("./routes/userRoute");
+  const hospitalRoutes = require("./routes/hospitalRoute");
  
 
 
   app.use("/api/v1/user", userRoutes);
+  app.use("/api/v1/hospital", hospitalRoutes);
   
 
 // MiddleWare for Error
