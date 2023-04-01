@@ -5,21 +5,26 @@ const {
   loginHospital,
   logoutHospital,
   getHospitalDetailPostman,
-  getHospitalDetail
+  getHospitalDetail,
 } = require("../controllers/hospitalController");
 
+const { getNewAppointment } = require("../controllers/appointmentController");
 
-const router = express.Router()
 
-router.route("/register").post(registerHospital)
 
-router.route("/login").post(loginHospital)
+const router = express.Router();
 
-router.route("/logout").get(logoutHospital)
+router.route("/register").post(registerHospital);
+
+router.route("/login").post(loginHospital);
+
+router.route("/logout").get(logoutHospital);
 
 router.route("/detail/:h_id").get(getHospitalDetail);
 
 // For Postman --> All Details
-router.route("/all-detail/:h_id").get(getHospitalDetailPostman)
+router.route("/all-detail/:h_id").get(getHospitalDetailPostman);
 
-module.exports = router
+router.route("/apts/:h_id").get(getNewAppointment);
+
+module.exports = router;
