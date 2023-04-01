@@ -112,3 +112,14 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
 });
 
 //get appointment detail
+
+exports.getAppointmentDetail = catchAsyncError(async (req,res,next)=>{
+    const appointment = await Appointment.findById(req.params.apt_id).populate("hospital_id", "_id name").populate("user_id", "_id name")
+
+    res.status(200).json({
+        success: true,
+        appointment,
+        message: "Success",
+        error:""
+    })
+})
