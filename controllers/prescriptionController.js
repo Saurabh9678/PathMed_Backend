@@ -65,7 +65,7 @@ exports.getMedications = catchAsyncError(async (req, res, next) => {
       path: "prescription",
       select: "medicines",
     },
-  });
+  }); 
 
   const user_medication = user.prescriptions.reduce((acc, prescription) => {
     return acc.concat(prescription.prescription.medicines);
