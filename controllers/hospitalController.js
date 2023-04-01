@@ -54,3 +54,39 @@ exports.logoutHospital = catchAsyncError(async (req, res, next) => {
     message: "Logged Out",
   });
 });
+
+//Get hospital details --> Postman
+exports.getHospitalDetailPostman = catchAsyncError(async (req, res, next) => {
+  const hospital = await Hospital.findById(req.params.h_id);
+  if (!hospital) {
+    return next(new ErrorHandler("No hospital found", 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    hospital,
+  });
+});
+
+// Get hospital details --> User
+exports.getHospitalDetail = catchAsyncError(async (req, res, next) => {
+  const hospital = await Hospital.findById(req.params.h_id);
+  if (!hospital) {
+    return next(new ErrorHandler("No hospital found", 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    hospital: {
+      id: hospital._id,
+      name: hospital.name,
+      email: hospital.email,
+      contact_number: hospital.contact_number,
+      address: hospital.address,
+      departments: hospital.departments
+    }
+  });
+});
+
+
+
