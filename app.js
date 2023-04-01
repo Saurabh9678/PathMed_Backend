@@ -6,11 +6,11 @@ const app = express();
 app.use(express.json());
 
 //Route Imports
-  //const userRoutes = require("./routes/userRoute");
+  const userRoutes = require("./routes/userRoute");
  
 
 
-  //app.use("/api/v1/user", userRoutes);
+  app.use("/api/v1/user", userRoutes);
   
 
 // MiddleWare for Error
