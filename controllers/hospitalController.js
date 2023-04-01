@@ -88,5 +88,10 @@ exports.getHospitalDetail = catchAsyncError(async (req, res, next) => {
   });
 });
 
+// Get new appointments
+exports.getNewAppointments = catchAsyncError(async (req, res, next) => {
+  
+})
+
 
 
