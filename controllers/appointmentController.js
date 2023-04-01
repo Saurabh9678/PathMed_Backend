@@ -18,11 +18,12 @@ exports.reqAppointment = catchAsyncError(async (req, res, next) => {
     appointment_date,
   });
 
+  //User
   const user = await User.findById(user_id);
   user.req_appointments.push({ req_appt: appointment._id });
 
+  //Hospital
   const hospital = await Hospital.findById(hospital_id);
-
   hospital.new_appoinments.push({ apt_id: appointment._id });
 
   await user.save({ validateBeforeSave: false });
@@ -32,7 +33,7 @@ exports.reqAppointment = catchAsyncError(async (req, res, next) => {
     success: true,
     appointment,
     message: "Appointment request success",
-    error: ""
+    error: "",
   });
 });
 
@@ -52,6 +53,7 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
 
   //if accepted
   if (status === "A") {
+    //User
     const user = await User.findById(appointment.user_id);
     user.appointments.push({ acpt_appointment: appointment._id });
 
@@ -60,8 +62,8 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
     );
     user.req_appointments = req_appointments;
 
+    //Hospital
     const hospital = await Hospital.findById(appointment.hospital_id);
-
     hospital.accepted_appointments.push({ acpt_apt_id: appointment._id });
 
     const new_appoinments = hospital.new_appoinments.filter(
@@ -70,19 +72,18 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
     hospital.new_appoinments = new_appoinments;
 
     // Add the accepted appointment's id to the doctor's model
-    // const acptdApt = await Appointment.findById(appointment._id);
-    // const assignedDoctor = await Doctor.findById(acptdApt.doctor_id);
-    // assignedDoctor.allAppointments.push({ appointment: appointment._id });
+    const doctor = await Doctor.findById(appointment.doctor_id);
+    doctor.allAppointments.push({ appointment: appointment._id });
 
     await user.save({ validateBeforeSave: false });
     await hospital.save({ validateBeforeSave: false });
-    //await assignedDoctor.save({ validateBeforeSave: false });
+    await doctor.save({ validateBeforeSave: false });
 
     res.status(200).json({
       success: true,
       appointment,
       message: "Appointment Accepted",
-      error:""
+      error: "",
     });
   } else if (status === "R") {
     const user = await User.findById(appointment.user_id);
@@ -105,7 +106,7 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Appointment Rejected",
-      error: ""
+      error: "",
     });
   }
 });
@@ -133,8 +134,6 @@ exports.getAppointment = catchAsyncError(async (req, res, next) => {
       urgency: appointment.urgency,
       status: appointment.status,
     },
-    message:"",
-
+    message: "",
   });
 });
-

@@ -2,6 +2,7 @@ const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncError = require("../middleware/catchAsyncError");
 const Hospital = require("../models/hospitalModel");
 const sendToken = require("../utils/jwtToken");
+const User = require("../models/userModel")
 
 // Register a hospital
 exports.registerHospital = catchAsyncError(async (req, res, next) => {
@@ -90,13 +91,26 @@ exports.getHospitalDetail = catchAsyncError(async (req, res, next) => {
 
 // Get new appointments
 exports.getAllNewAppointments = catchAsyncError(async (req, res, next) => {
-  const hospital =await Hospital.findById(req.params.h_id).populate("new_appoinments.apt_id", "_id user_id appointment_date");
-
-  res.status(200).json({
-    success:true,
-    appointments: hospital.new_appoinments
-  })
-})
+    const hospital = await Hospital.findById(req.params.h_id).populate("new_appoinments.apt_id", "_id user_id appointment_date");
+  
+    const appointments = await Promise.all(hospital.new_appoinments.map(async (apt) => {
+      const user = await User.findById(apt.apt_id.user_id);
+      return {
+        "_id": apt.apt_id._id,
+        "user_id": apt.apt_id.user_id,
+        "user_name": user.name,
+        "appointment_date": apt.apt_id.appointment_date
+      };
+    }));
+  
+    res.status(200).json({
+      success: true,
+      appointments: appointments,
+      message: "Success",
+      error: ""
+    });
+  });
+  
 
 
 
