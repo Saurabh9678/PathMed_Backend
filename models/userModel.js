@@ -29,9 +29,11 @@ const userSchema = new mongoose.Schema({
   },
   phone_number: {
     type: Number,
+    default: 0000000000
   },
   gender: {
     type: String,
+    default:"NA"
   },
   address: {
     state: {

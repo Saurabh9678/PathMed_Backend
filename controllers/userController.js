@@ -53,3 +53,39 @@ exports.logoutUser = catchAsyncError(async (req, res, next) => {
     message: "Logged Out",
   });
 });
+
+
+//Get user Detail 
+exports.getUserDetail = catchAsyncError(async (req, res, next)=> {
+    const user = await User.findById(req.params.u_id);
+    if(!user){
+        return next( new ErrorHandler("Please provide a valid user Id", 400))
+    }
+
+    res.status(200).json({
+        success:true,
+        user:{
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            dob: user.dob,
+            blood_group: user.blood_group,
+            phone_number: user.phone_number,
+            gender: user.gender,
+            address: user.address
+        }
+    })
+})
+
+//get user detail --> for postman
+exports.getUserDetailsPostman = catchAsyncError(async (req, res, next)=> {
+    const user = await User.findById(req.params.u_id);
+    if(!user){
+        return next( new ErrorHandler("Please provide a valid user Id", 400))
+    }
+
+    res.status(200).json({
+        success:true,
+        user
+    })
+})
