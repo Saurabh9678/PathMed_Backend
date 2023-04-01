@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema({
     default: "NA"
   },
   phone_number: {
-    type: Number,
-    default: 0
+    type: String,
+    default: "0"
   },
   gender: {
     type: String,

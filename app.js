@@ -9,10 +9,13 @@ app.use(express.json());
 const userRoutes = require("./routes/userRoute");
 const hospitalRoutes = require("./routes/hospitalRoute");
 const doctorRoutes = require("./routes/doctorRoute");
+const appointmentRoutes = require("./routes/appointmentRoute")
+
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/hospital", hospitalRoutes);
 app.use("/api/v1/doctor", doctorRoutes);
+app.use("/api/v1/appointment", appointmentRoutes)
 
 // MiddleWare for Error
 
