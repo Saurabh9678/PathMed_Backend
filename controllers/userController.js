@@ -89,3 +89,30 @@ exports.getUserDetailsPostman = catchAsyncError(async (req, res, next)=> {
         user
     })
 })
+
+
+//update profile 
+
+exports.updateUserDetail = catchAsyncError(async (req,res,next)=>{
+
+    const user = await User.findByIdAndUpdate(req.params.u_id, req.body,{
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    })
+  
+    res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        dob: user.dob,
+        blood_group: user.blood_group,
+        gender: user.gender,
+        address: user.address,
+        phone_number: user.phone_number
+      },
+    });
+  
+  })
+  

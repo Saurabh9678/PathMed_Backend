@@ -5,7 +5,8 @@ const {
   registerUser,
   logoutUser,
   getUserDetail,
-  getUserDetailsPostman
+  getUserDetailsPostman,
+  updateUserDetail
 } = require("../controllers/userController");
 
 
@@ -17,7 +18,7 @@ router.route("/login").post(loginUser)
 
 router.route("/logout").get(logoutUser)
 
-router.route("/detail/:u_id").get(getUserDetail)
+router.route("/detail/:u_id").get(getUserDetail).put(updateUserDetail)
 
 
 //postman route only for testing
