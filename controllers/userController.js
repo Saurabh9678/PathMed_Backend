@@ -73,6 +73,8 @@ exports.getUserDetail = catchAsyncError(async (req, res, next) => {
       gender: user.gender,
       address: user.address,
     },
+    message: "Success",
+    error: ""
   });
 });
 
@@ -111,6 +113,8 @@ exports.updateUserDetail = catchAsyncError(async (req,res,next)=>{
         address: user.address,
         phone_number: user.phone_number
       },
+      message: "Updated",
+      error: ""
     });
   
   })

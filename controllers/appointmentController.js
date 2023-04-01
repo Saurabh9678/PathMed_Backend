@@ -32,6 +32,7 @@ exports.reqAppointment = catchAsyncError(async (req, res, next) => {
     success: true,
     appointment,
     message: "Appointment request success",
+    error: ""
   });
 });
 
@@ -81,6 +82,7 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
       success: true,
       appointment,
       message: "Appointment Accepted",
+      error:""
     });
   } else if (status === "R") {
     const user = await User.findById(appointment.user_id);
@@ -103,6 +105,7 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Appointment Rejected",
+      error: ""
     });
   }
 });
@@ -130,6 +133,8 @@ exports.getAppointment = catchAsyncError(async (req, res, next) => {
       urgency: appointment.urgency,
       status: appointment.status,
     },
+    message:"",
+
   });
 });
 
