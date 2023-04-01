@@ -63,7 +63,7 @@ exports.getPrescription = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    name: prescriptions,
+    prescription: prescriptions,
     message: "Success",
     error: "",
   });
