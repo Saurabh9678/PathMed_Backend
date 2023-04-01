@@ -111,29 +111,4 @@ exports.resToAppointment = catchAsyncError(async (req, res, next) => {
   }
 });
 
-// Get Appointments
-exports.getAppointment = catchAsyncError(async (req, res, next) => {
-  const appointment = await Appointment.findById(req.params.apt_id);
-
-  if (!appointment) {
-    return next(new ErrorHandler("No appointment found", 400));
-  }
-
-  const hospital = await Hospital.findById(appointment.hospital_id);
-  // const doctor = await Doctor.findById(appointment.doctor_id);
-  const user = await User.findById(appointment.user_id);
-
-  res.status(200).json({
-    success: true,
-    appointment: {
-      hospital_name: hospital.name,
-      // doctor_name: doctor.name,
-      user_name: user.name,
-      appointment_date: appointment.appointment_date,
-      time_of_appointment: Appointment.time_of_appointment,
-      urgency: appointment.urgency,
-      status: appointment.status,
-    },
-    message: "",
-  });
-});
+//get appointment detail

@@ -98,7 +98,15 @@ exports.getAllNewAppointments = catchAsyncError(async (req, res, next) => {
       return {
         "_id": apt.apt_id._id,
         "user_id": apt.apt_id.user_id,
-        "user_name": user.name,
+        "user": {      
+            "name": user.name,
+            "email": user.email,
+            "dob": user.dob,
+            "blood_group": user.blood_group,
+            "gender":user.gender,
+            "phone_number": user.phone_number,
+            "address": user.address,
+        },
         "appointment_date": apt.apt_id.appointment_date
       };
     }));
