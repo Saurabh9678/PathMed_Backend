@@ -35,7 +35,9 @@ exports.addPrescription = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    prescription,
+    prescription: prescription,
+    message: "Success",
+    error: "",
   });
 });
 
@@ -48,7 +50,9 @@ exports.getPrescription = catchAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    prescription,
+    prescription: prescription,
+    message: "Success",
+    error: "",
   });
 });
 
@@ -77,5 +81,7 @@ exports.updatePrescription = catchAsyncError(async (req, res, next) => {
       disease: prescription.disease,
       tests: prescription.tests,
     },
+    message: "Success",
+    error: "",
   });
 });
